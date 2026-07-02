@@ -1,6 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Container from "@/components/ui/Container";
+import Button from "@/components/ui/Button";
+import { useScroll } from "@/hooks/useScroll";
+import { cn } from "@/lib/utils";
 
 const LINKS = [
   { href: "#home", label: "Home" },
@@ -12,23 +16,17 @@ const LINKS = [
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const scrolled = useScroll(20);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <header className={`navbar ${scrolled ? "scrolled" : ""}`}>
-      <div className="container nav-inner">
+    <header className={cn("navbar", scrolled && "scrolled")}>
+      <Container className="nav-inner">
         <a href="#home" className="logo">
           MS<span className="logo-dot">.</span>
         </a>
 
-        <nav className={`nav-links ${open ? "open" : ""}`}>
+        <nav className={cn("nav-links", open && "open")}>
           {LINKS.map((link) => (
             <a key={link.href} href={link.href} onClick={() => setOpen(false)}>
               {link.label}
@@ -36,9 +34,9 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <a href="#contact" className="btn btn-primary nav-cta">
+        <Button href="#contact" variant="primary" className="nav-cta">
           Let&apos;s Talk
-        </a>
+        </Button>
 
         <button
           className="menu-toggle"
@@ -49,7 +47,7 @@ export default function Navbar() {
           <span></span>
           <span></span>
         </button>
-      </div>
+      </Container>
     </header>
   );
 }

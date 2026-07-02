@@ -1,9 +1,10 @@
-import Reveal from "./Reveal";
+import Reveal from "@/components/animations/Reveal";
+import Container from "@/components/ui/Container";
 
 export default function About() {
   return (
     <section className="about" id="about">
-      <div className="container about-inner">
+      <Container className="about-inner">
         <Reveal className="section-tag">About Me</Reveal>
         <Reveal as="p" className="about-text">
           I&apos;m a MERN Stack Developer with hands-on experience designing and
@@ -15,7 +16,7 @@ export default function About() {
           contribute to production-level applications through internships and
           personal projects.
         </Reveal>
-      </div>
+      </Container>
     </section>
   );
 }

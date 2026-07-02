@@ -1,6 +1,4 @@
-import Reveal from "./Reveal";
-
-const EXPERIENCE = [
+export const EXPERIENCE = [
   {
     date: "Aug 2025 — Present",
     title: "Full Stack Developer Intern",
@@ -14,31 +12,3 @@ const EXPERIENCE = [
     desc: "Intensive, hands-on training covering the full MERN stack — building production-style applications end to end.",
   },
 ];
-
-export default function Experience() {
-  return (
-    <section className="experience" id="experience">
-      <div className="container">
-        <div className="section-head">
-          <Reveal className="section-tag">Career</Reveal>
-          <Reveal as="h2" className="section-title">
-            Experience
-          </Reveal>
-        </div>
-        <div className="timeline">
-          {EXPERIENCE.map((item) => (
-            <Reveal as="div" className="timeline-item" key={item.title}>
-              <div className="timeline-dot"></div>
-              <div className="timeline-content">
-                <span className="timeline-date">{item.date}</span>
-                <h3>{item.title}</h3>
-                <span className="timeline-org">{item.org}</span>
-                <p>{item.desc}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}

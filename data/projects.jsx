@@ -1,0 +1,38 @@
+export const PROJECTS = [
+  {
+    index: "01",
+    slug: "agency-revamp",
+    image: "/images/projects/agency-revamp.jpg",
+    tag: "Production Project",
+    title: "Agency Revamp & Admin Dashboard",
+    desc: "A full-stack agency website and admin dashboard enabling dynamic content management for blogs, careers, and media sections. Interactive frontend built with Next.js, Tailwind CSS, Framer Motion, and GSAP, with 3D elements via React Three Fiber and Cobe.",
+    stack: [
+      "Next.js",
+      "Tailwind CSS",
+      "Framer Motion",
+      "React Three Fiber",
+      "Express.js",
+      "MongoDB",
+      "JWT",
+      "Cloudinary",
+    ],
+  },
+  {
+    index: "02",
+    slug: "social-media",
+    image: "/images/projects/social-media.jpg",
+    tag: "Main Project — MERN",
+    title: "Social Media Web Application",
+    desc: "A full-stack social platform with real-time messaging and notifications via Socket.io. Secure authentication with JWT and Context API, OTP email verification via Nodemailer, and Cloudinary-powered media uploads.",
+    stack: ["MongoDB", "Express.js", "React", "Node.js", "Socket.io", "JWT", "Nodemailer"],
+  },
+  {
+    index: "03",
+    slug: "music-streaming",
+    image: "/images/projects/music-streaming.jpg",
+    tag: "Mini Project — MERN",
+    title: "Music Playlist Streaming Application",
+    desc: "A full-stack music streaming platform with playlist management and audio playback. Features song uploads, search, and playlist creation, secured with JWT authentication and Cloudinary media storage.",
+    stack: ["Node.js", "Express", "MongoDB", "JWT", "Cloudinary", "Tailwind CSS"],
+  },
+];

@@ -1,14 +1,14 @@
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import Stats from "@/components/Stats";
-import About from "@/components/About";
-import TechMarquee from "@/components/TechMarquee";
-import Skills from "@/components/Skills";
-import Experience from "@/components/Experience";
-import Projects from "@/components/Projects";
-import Education from "@/components/Education";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/layout/Navbar";
+import Hero from "@/components/home/Hero";
+import Stats from "@/components/home/Stats";
+import About from "@/components/home/About";
+import TechMarquee from "@/components/animations/TechMarquee";
+import Skills from "@/components/home/Skills";
+import Experience from "@/components/home/Experience";
+import Projects from "@/components/home/Projects";
+import Education from "@/components/home/Education";
+import Contact from "@/components/home/Contact";
+import Footer from "@/components/layout/Footer";
 
 export default function Home() {
   return (

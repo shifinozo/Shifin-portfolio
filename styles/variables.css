@@ -1,0 +1,15 @@
+:root {
+  --bg: #06070a;
+  --bg-alt: #0b0d13;
+  --surface: #10121a;
+  --surface-hover: #161925;
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #f4f5f7;
+  --text-dim: #9698a8;
+  --text-dimmer: #6b6e80;
+  --accent: #7c5cff;
+  --accent-2: #4fd1ff;
+  --gradient: linear-gradient(120deg, #7c5cff 0%, #4fd1ff 100%);
+  --font-display-fallback: "Space Grotesk", sans-serif;
+  --font-body-fallback: "Inter", sans-serif;
+}

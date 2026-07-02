@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
 export default function Reveal({ as: Tag = "div", className = "", children, ...rest }) {
   const ref = useRef(null);
@@ -25,7 +26,7 @@ export default function Reveal({ as: Tag = "div", className = "", children, ...r
   }, []);
 
   return (
-    <Tag ref={ref} className={`reveal ${visible ? "visible" : ""} ${className}`} {...rest}>
+    <Tag ref={ref} className={cn("reveal", visible && "visible", className)} {...rest}>
       {children}
     </Tag>
   );

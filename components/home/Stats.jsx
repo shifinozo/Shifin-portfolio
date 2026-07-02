@@ -1,5 +1,6 @@
-import Reveal from "./Reveal";
-import StatCounter from "./StatCounter";
+import Reveal from "@/components/animations/Reveal";
+import StatCounter from "@/components/animations/StatCounter";
+import Container from "@/components/ui/Container";
 
 const STATS = [
   { target: 3, suffix: "+", label: "Full-Stack Projects" },
@@ -11,14 +12,14 @@ const STATS = [
 export default function Stats() {
   return (
     <section className="stats">
-      <div className="container stats-grid">
+      <Container className="stats-grid">
         {STATS.map((stat) => (
           <Reveal as="div" className="stat-card" key={stat.label}>
             <StatCounter target={stat.target} suffix={stat.suffix} />
             <span className="stat-label">{stat.label}</span>
           </Reveal>
         ))}
-      </div>
+      </Container>
     </section>
   );
 }

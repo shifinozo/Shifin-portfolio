@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export default function StatCounter({ target, suffix = "" }) {
+export function useCounter(target, { duration = 1200 } = {}) {
   const ref = useRef(null);
   const [value, setValue] = useState(0);
 
@@ -13,7 +13,6 @@ export default function StatCounter({ target, suffix = "" }) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
-        const duration = 1200;
         const start = performance.now();
 
         function tick(now) {
@@ -31,12 +30,7 @@ export default function StatCounter({ target, suffix = "" }) {
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, [target]);
+  }, [target, duration]);
 
-  return (
-    <span ref={ref} className="stat-number">
-      {value}
-      {suffix}
-    </span>
-  );
+  return { ref, value };
 }
