@@ -1,13 +1,4 @@
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-/* Reveal animation */
+/* Reveal (used by Hero — unchanged behaviour for the default variant) */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -16,4 +7,68 @@
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Blur / rotate reveal (reference: -rotate-2deg translate-y opacity-0 blur-sm) */
+.reveal.reveal-blur {
+  transform: rotate(-2deg) translateY(2.34vh);
+  filter: blur(4px);
+  transition: opacity 0.8s ease, transform 0.9s var(--ease-out), filter 0.8s ease;
+}
+.reveal.reveal-blur.visible {
+  transform: none;
+  filter: blur(0);
+}
+
+/* Split text — words slide up out of an overflow-hidden mask */
+.st-w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.st-i {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(110%) rotate(var(--st-rot, 0deg));
+  filter: blur(var(--st-blur, 0px));
+  transition: transform var(--st-dur, 0.9s) var(--ease-out),
+    opacity calc(var(--st-dur, 0.9s) * 0.7) ease, filter var(--st-dur, 0.9s) ease;
+  will-change: transform;
+}
+.st.on .st-i {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+  filter: blur(0);
+}
+.st-line {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .st-i,
+  .ll-reveal,
+  .lg-card,
+  .ct-label-i,
+  .ct-num,
+  .ct-divider,
+  .sv-w,
+  .sv-pw,
+  .sv-sq-outline,
+  .sv-sq-inner,
+  .sv-mline,
+  .jn-card,
+  .jn-card .wi,
+  .cr-word,
+  .cr-c,
+  .pj-tag,
+  .pj-media img,
+  .ft-strip {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
 }

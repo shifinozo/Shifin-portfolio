@@ -1,32 +1,39 @@
+// Optional `image` shows in the cursor preview on hover (desktop) — drop files at these paths.
 export const SKILLS = [
   {
-    icon: "</>",
+    slug: "programming",
     title: "Programming",
     desc: "JavaScript, HTML, CSS",
+    image: "/images/skills/programming.jpg",
   },
   {
-    icon: "◧",
+    slug: "frontend",
     title: "Frontend",
     desc: "React (Vite), Next.js, Context API, Tailwind CSS, Axios",
+    image: "/images/skills/frontend.jpg",
   },
   {
-    icon: "⌘",
+    slug: "backend",
     title: "Backend",
     desc: "Node.js, Express.js, REST API Development",
+    image: "/images/skills/backend.jpg",
   },
   {
-    icon: "☁",
+    slug: "database-cloud",
     title: "Database & Cloud",
     desc: "MongoDB, Cloudinary",
+    image: "/images/skills/database-cloud.jpg",
   },
   {
-    icon: "⚙",
+    slug: "tools",
     title: "Tools",
     desc: "Socket.io, Nodemailer, JWT Authentication, Git",
+    image: "/images/skills/tools.jpg",
   },
   {
-    icon: "✦",
+    slug: "soft-skills",
     title: "Soft Skills",
-    desc: "Problem Solving, Communication, Team Collaboration, Adaptability",
+    desc: "Problem Solving, Communication, Team Collaboration, Time Management, Adaptability, Continuous Learning",
+    image: "/images/skills/soft-skills.jpg",
   },
 ];

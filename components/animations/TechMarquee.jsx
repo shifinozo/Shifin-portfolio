@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import {
   SiJavascript,
   SiHtml5,
@@ -15,6 +18,10 @@ import {
   SiGit,
 } from "react-icons/si";
 import { TbApi, TbMail } from "react-icons/tb";
+import SplitText from "@/components/animations/SplitText";
+import CursorFollower from "@/components/animations/CursorFollower";
+import { useInView } from "@/hooks/useInView";
+import { cn } from "@/lib/utils";
 
 const TECH = [
   { label: "JavaScript", Icon: SiJavascript, color: "#F7DF1E" },
@@ -27,70 +34,125 @@ const TECH = [
   { label: "Axios", Icon: SiAxios, color: "#5A29E4" },
   { label: "Node.js", Icon: SiNodedotjs, color: "#539E43" },
   { label: "Express.js", Icon: SiExpress, color: "#FFFFFF" },
-  { label: "REST API Development", Icon: TbApi, color: "#4FD1FF" },
+  { label: "REST APIs", Icon: TbApi, color: "#4FD1FF" },
   { label: "MongoDB", Icon: SiMongodb, color: "#47A248" },
   { label: "Cloudinary", Icon: SiCloudinary, color: "#3448C5" },
   { label: "Socket.io", Icon: SiSocketdotio, color: "#FFFFFF" },
   { label: "Nodemailer", Icon: TbMail, color: "#7C5CFF" },
-  { label: "JWT Authentication", Icon: SiJsonwebtokens, color: "#FB015B" },
+  { label: "JWT", Icon: SiJsonwebtokens, color: "#FB015B" },
   { label: "Git", Icon: SiGit, color: "#F05032" },
 ];
 
-function MarqueeGroup({ hidden }) {
-  return (
-    <div className="marquee-group" aria-hidden={hidden || undefined}>
-      {TECH.map((tech) => (
-        <div className="marquee-item" key={tech.label}>
-          <tech.Icon style={{ color: tech.color }} />
-          <span>{tech.label}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
+const AUTO_SPEED = 0.6; // px per frame
+const MAX_FLING = 40;
 
+/** Draggable, auto-scrolling row of bordered logo cards (reference "Trusted by" strip). */
 export default function TechMarquee() {
-  return (
-    <section className="marquee-section" aria-label="Technologies I work with">
-      <svg
-        className="marquee-curve"
-        viewBox="0 0 1200 160"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <defs>
-          <linearGradient id="marqueeCurveGradient" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="rgba(124,92,255,0)" />
-            <stop offset="18%" stopColor="rgba(124,92,255,0.85)" />
-            <stop offset="35%" stopColor="rgba(79,209,255,1)" />
-            <stop offset="50%" stopColor="rgba(255,92,241,1)" />
-            <stop offset="65%" stopColor="rgba(79,209,255,1)" />
-            <stop offset="82%" stopColor="rgba(124,92,255,0.85)" />
-            <stop offset="100%" stopColor="rgba(124,92,255,0)" />
-          </linearGradient>
-        </defs>
-        <path
-          className="marquee-curve-glow"
-          d="M0,125 Q600,55 1200,125"
-          stroke="url(#marqueeCurveGradient)"
-          strokeWidth="16"
-          fill="none"
-        />
-        <path
-          className="marquee-curve-core"
-          d="M0,125 Q600,55 1200,125"
-          stroke="url(#marqueeCurveGradient)"
-          strokeWidth="5"
-          fill="none"
-        />
-      </svg>
+  const trackRef = useRef(null);
+  const [hover, setHover] = useState(false);
+  const [ref, inView] = useInView({ threshold: 0.15 });
 
-      <div className="marquee-viewport">
-        <div className="marquee-track">
-          <MarqueeGroup />
-          <MarqueeGroup hidden />
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    let x = 0;
+    let half = track.scrollWidth / 2;
+    let raf = 0;
+    let dragging = false;
+    let startX = 0;
+    let startOffset = 0;
+    let lastX = 0;
+    let lastT = 0;
+    let fling = 0;
+
+    const resize = () => {
+      half = track.scrollWidth / 2;
+    };
+
+    const loop = () => {
+      if (!dragging) {
+        x -= AUTO_SPEED + fling;
+        fling *= 0.95;
+        if (Math.abs(fling) < 0.01) fling = 0;
+      }
+      if (x <= -half) x += half;
+      if (x > 0) x -= half;
+      track.style.transform = `translate3d(${x}px, 0, 0)`;
+      raf = requestAnimationFrame(loop);
+    };
+
+    const down = (e) => {
+      dragging = true;
+      startX = e.clientX;
+      startOffset = x;
+      lastX = e.clientX;
+      lastT = performance.now();
+      fling = 0;
+    };
+    const move = (e) => {
+      if (!dragging) return;
+      x = startOffset + (e.clientX - startX);
+      const now = performance.now();
+      const dt = Math.max(1, now - lastT);
+      fling = Math.max(-MAX_FLING, Math.min(MAX_FLING, (-(e.clientX - lastX) / dt) * 16));
+      lastX = e.clientX;
+      lastT = now;
+    };
+    const up = () => {
+      dragging = false;
+    };
+
+    track.addEventListener("pointerdown", down);
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    window.addEventListener("pointercancel", up);
+    window.addEventListener("resize", resize);
+    raf = requestAnimationFrame(loop);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      track.removeEventListener("pointerdown", down);
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      window.removeEventListener("pointercancel", up);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  return (
+    <div className="lg" ref={ref} aria-label="Technologies I work with">
+      <div className="lg-head">
+        <SplitText as="h3" text="Technologies I work with." className="lg-title" />
+      </div>
+
+      <div
+        className="lg-viewport"
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+      >
+        <div className="lg-track" ref={trackRef}>
+          {[0, 1].map((copy) =>
+            TECH.map((tech, i) => (
+              <div
+                key={`${copy}-${tech.label}`}
+                className={cn("lg-card", inView && "on")}
+                style={{ transitionDelay: copy === 0 ? `${Math.min(i, 8) * 0.06}s` : "0s" }}
+                aria-hidden={copy === 1 || undefined}
+              >
+                <div className="lg-card-inner">
+                  <tech.Icon style={{ color: tech.color }} />
+                  <span>{tech.label}</span>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
-    </section>
+
+      <CursorFollower active={hover}>
+        <span className="cf-inner cf-label">Tech stack</span>
+      </CursorFollower>
+    </div>
   );
 }

@@ -1,15 +1,72 @@
 :root {
-  --bg: #06070a;
-  --bg-alt: #0b0d13;
-  --surface: #10121a;
-  --surface-hover: #161925;
-  --border: rgba(255, 255, 255, 0.08);
-  --text: #f4f5f7;
-  --text-dim: #9698a8;
-  --text-dimmer: #6b6e80;
+  /* Palette (reference: outer-space / white-smoke system) */
+  --bg: #0e0e0e;
+  --bg-alt: #141414;
+  --surface: #141414;
+  --surface-hover: #191919;
+  --border: #2f2f2f;
+  --border-soft: #303030;
+  --divider: #3b3b3b;
+  --text: #f2f2f2;
+  --text-dim: #a9a9a9;
+  --text-muted: #c6c6c6;
+  --text-inactive: #505050;
+  --periwinkle: #d4cccc;
+  --darkslate: #303539;
+  --hoki: #545e54;
+  --apple-green: #303930;
+  --valhalla: #6e6554;
+  --tint: #5f5136;
+
+  /* Hero (unchanged) */
   --accent: #7c5cff;
   --accent-2: #4fd1ff;
   --gradient: linear-gradient(120deg, #7c5cff 0%, #4fd1ff 100%);
+
+  /* Layout */
+  --px: 5.5vw;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-inout: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Type scale (vw-based like the reference) */
+  --t-h2: 4.44vw;
+  --t-body1: 1.67vw;
+  --t-body2: 1.11vw;
+  --t-body3: 0.97vw;
+  --t-btn: 1.38vw;
+  --t-label: 0.69vw;
+  --t-sub2: 1.67vw;
+  --t-sub4: 0.84vw;
+
   --font-display-fallback: "Space Grotesk", sans-serif;
   --font-body-fallback: "Inter", sans-serif;
+  --font-mono-fallback: "DM Mono", ui-monospace, monospace;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --px: 4.1vw;
+    --t-h2: 7.25vw;
+    --t-body1: 2.34vw;
+    --t-body2: 1.56vw;
+    --t-body3: 1.36vw;
+    --t-btn: 1.95vw;
+    --t-label: 1vw;
+    --t-sub2: 2.34vw;
+    --t-sub4: 1.17vw;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --px: 5.97vw;
+    --t-h2: 11.9vw;
+    --t-body1: 5.97vw;
+    --t-body2: 3.48vw;
+    --t-body3: 3.48vw;
+    --t-btn: 3.48vw;
+    --t-label: 2.4vw;
+    --t-sub2: 4.47vw;
+    --t-sub4: 2.4vw;
+  }
 }

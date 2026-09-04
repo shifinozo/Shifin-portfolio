@@ -1,115 +1,177 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import Reveal from "@/components/animations/Reveal";
-import Container from "@/components/ui/Container";
-import SectionTitle from "@/components/ui/SectionTitle";
+import PixelHeading from "@/components/animations/PixelHeading";
+import SplitText from "@/components/animations/SplitText";
+import LineLink from "@/components/animations/LineLink";
+import CursorFollower from "@/components/animations/CursorFollower";
+import { useInView } from "@/hooks/useInView";
 import { PROJECTS } from "@/data/projects";
+import { SOCIAL_LINKS } from "@/data/socialLinks";
+import { cn } from "@/lib/utils";
 
-export default function Projects() {
-  const scrollSpaceRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [imgErrors, setImgErrors] = useState({});
+// Row layouts cycle through the reference grid: [7 | 4 bottom-aligned], [10 centred], [4 top | 7].
+const ROW_LAYOUTS = [
+  ["pj-c7", "pj-c4-end pj-bottom"],
+  ["pj-c10"],
+  ["pj-c4", "pj-c7-end"],
+];
 
+const VIEW_LABEL = "View Project";
+
+function buildRows(projects) {
+  const rows = [];
+  let i = 0;
+  let r = 0;
+  while (i < projects.length) {
+    const layout = ROW_LAYOUTS[r % ROW_LAYOUTS.length];
+    rows.push(
+      projects.slice(i, i + layout.length).map((project, k) => ({ project, cls: layout[k] }))
+    );
+    i += layout.length;
+    r += 1;
+  }
+  return rows;
+}
+
+function ArrowIcon() {
+  return (
+    <svg viewBox="0 0 10 10" aria-hidden="true">
+      <path d="M1 5h8M5 1l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.2" />
+    </svg>
+  );
+}
+
+function ProjectCard({ project, cls, onHover }) {
+  const [ref, inView] = useInView({ threshold: 0.2 });
+  const mediaRef = useRef(null);
+  const [broken, setBroken] = useState(false);
+
+  // Image parallax: the inner layer is 110% tall and drifts as the card crosses the viewport.
   useEffect(() => {
-    function handleScroll() {
-      const node = scrollSpaceRef.current;
-      if (!node) return;
-      const rect = node.getBoundingClientRect();
-      const total = rect.height - window.innerHeight;
-      const raw = total > 0 ? -rect.top / total : 0;
-      const clamped = Math.min(Math.max(raw, 0), 1);
+    const inner = mediaRef.current;
+    if (!inner) return;
+    let raf = 0;
 
-      const scaled = clamped * PROJECTS.length;
-      const idx = Math.min(PROJECTS.length - 1, Math.floor(scaled));
-      setActiveIndex(idx);
-    }
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    const update = () => {
+      raf = 0;
+      const rect = inner.parentElement.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const p = (rect.top + rect.height / 2 - vh / 2) / (vh / 2 + rect.height / 2);
+      inner.style.transform = `translate3d(0, ${(-p * 5).toFixed(2)}%, 0) scale(1.025)`;
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
+  const tags = project.tags ?? project.stack.slice(0, 4);
+  const external = Boolean(project.href);
+
   return (
-    <section className="projects" id="projects">
-      <div
-        className="projects-scroll-space"
-        ref={scrollSpaceRef}
-        style={{ height: `${PROJECTS.length * 100}vh` }}
-      >
-        <div className="projects-sticky">
-          <Container>
-            <div className="projects-head-row">
-              <div>
-                <SectionTitle eyebrow="Selected Work" title="Projects" />
-              </div>
-              <Reveal as="p" className="projects-intro">
-                A closer look at full-stack applications I&apos;ve designed,
-                built, and shipped — from production dashboards to real-time
-                social platforms.
-              </Reveal>
+    <a
+      ref={ref}
+      href={project.href || "#projects"}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      className={cn("pj-card", cls, inView && "on")}
+      onMouseEnter={() => onHover(true)}
+      onMouseLeave={() => onHover(false)}
+    >
+      <div className="pj-media">
+        <div className="pj-media-inner" ref={mediaRef}>
+          {!broken ? (
+            <img
+              src={project.image}
+              alt={project.title}
+              draggable={false}
+              onError={() => setBroken(true)}
+            />
+          ) : (
+            <div className="pj-media-fallback">
+              <span>{project.index}</span>
             </div>
-
-            <div className="projects-showcase">
-              <div className="projects-visual">
-                {PROJECTS.map((project, i) => (
-                  <div
-                    key={project.slug}
-                    className={`project-visual-frame ${i === activeIndex ? "active" : ""}`}
-                  >
-                    {!imgErrors[i] ? (
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        sizes="(max-width: 860px) 100vw, 440px"
-                        style={{ objectFit: "cover" }}
-                        priority={i === 0}
-                        onError={() =>
-                          setImgErrors((prev) => ({ ...prev, [i]: true }))
-                        }
-                      />
-                    ) : (
-                      <div className="project-visual-placeholder">
-                        <span>{project.index}</span>
-                        <p>{project.slug}.jpg</p>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              <div className="projects-card-stack">
-                {PROJECTS.map((project, i) => (
-                  <div
-                    key={project.title}
-                    className={`project-stack-card ${i === activeIndex ? "active" : ""}`}
-                    style={{ zIndex: i === activeIndex ? 10 : PROJECTS.length - i }}
-                  >
-                    <div className="project-stack-top">
-                      <span className="project-stack-index">{project.index}</span>
-                      <span className="project-stack-arrow">↗</span>
-                    </div>
-
-                    <div>
-                      <h3 className="project-stack-title">{project.title}</h3>
-                      <div className="project-stack-body">
-                        <div className="project-tag">{project.tag}</div>
-                        <p>{project.desc}</p>
-                        <ul className="project-stack">
-                          {project.stack.map((tech) => (
-                            <li key={tech}>{tech}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Container>
+          )}
+        </div>
+        <div className="pj-tags">
+          {tags.map((tag, i) => (
+            <span key={tag} className="pj-tag" style={{ transitionDelay: `${0.2 + i * 0.07}s` }}>
+              {tag}
+            </span>
+          ))}
         </div>
       </div>
+
+      <div className="pj-info">
+        <span className="pj-pointer" aria-hidden="true" />
+        <div className="pj-text">
+          <SplitText as="h3" text={project.title} className="pj-title" stagger={0.06} />
+          <SplitText
+            as="p"
+            text={project.tagline}
+            className="pj-desc"
+            stagger={0.015}
+            duration={0.7}
+          />
+        </div>
+        <span className="pj-view" aria-hidden="true">
+          <span className="pj-view-box">
+            <ArrowIcon />
+          </span>
+          <span className="pj-view-letters">
+            {VIEW_LABEL.split("").map((ch, i) => (
+              <span key={i} className="pj-view-lw">
+                <span className="pj-view-l" style={{ transitionDelay: `${i * 0.025}s` }}>
+                  {ch === " " ? " " : ch}
+                </span>
+              </span>
+            ))}
+          </span>
+        </span>
+      </div>
+    </a>
+  );
+}
+
+export default function Projects() {
+  const [hover, setHover] = useState(false);
+  const github = SOCIAL_LINKS.find((link) => link.label === "GitHub")?.href ?? "#";
+  const rows = buildRows(PROJECTS);
+
+  return (
+    <section id="projects" className="pj">
+      <div className="pj-head">
+        <PixelHeading text="Selected projects" />
+        <LineLink href={github} target="_blank" rel="noopener noreferrer">
+          view all works
+        </LineLink>
+      </div>
+
+      <div className="pj-rows">
+        {rows.map((row, ri) => (
+          <div key={ri} className="pj-grid">
+            {row.map(({ project, cls }) => (
+              <ProjectCard key={project.slug} project={project} cls={cls} onHover={setHover} />
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <CursorFollower active={hover}>
+        <span className="cf-inner pj-cf">
+          <span className="pj-cf-box">
+            <ArrowIcon />
+          </span>
+          <span className="pj-cf-label">View</span>
+        </span>
+      </CursorFollower>
     </section>
   );
 }
