@@ -9,7 +9,7 @@ export const SKILLS = [
   {
     slug: "frontend",
     title: "Frontend",
-    desc: "React (Vite), Next.js, Context API, Tailwind CSS, Axios",
+    desc: "Next.js, React (Vite), Context API, Tailwind CSS, Axios",
     image: "/images/skills/frontend.jpg",
   },
   {
@@ -29,6 +29,18 @@ export const SKILLS = [
     title: "Tools",
     desc: "Socket.io, Nodemailer, JWT Authentication, Git",
     image: "/images/skills/tools.jpg",
+  },
+  {
+    slug: "ai-tools",
+    title: "AI Tools",
+    desc: "Claude, Cursor, Antigravity, Perplexity, AI Chatbots",
+    image: "/images/skills/ai-tools.jpg",
+  },
+  {
+    slug: "languages",
+    title: "Languages",
+    desc: "Malayalam (Native), English (Professional Working), Tamil (Conversational)",
+    image: "/images/skills/languages.jpg",
   },
   {
     slug: "soft-skills",

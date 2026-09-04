@@ -36,9 +36,10 @@ export default function Experience() {
     const calc = () => {
       const track = trackRef.current;
       if (!track) return;
-      const vw = window.innerWidth;
-      const px = vw * (vw <= 640 ? 0.0597 : vw <= 1024 ? 0.041 : 0.055);
-      setShift(Math.max(0, track.scrollWidth + px * 2 - vw));
+      // How far the track must travel for its last card to reach the viewport's
+      // right edge. scrollWidth already includes the track's own left padding.
+      const visible = track.parentElement?.clientWidth ?? window.innerWidth;
+      setShift(Math.max(0, track.scrollWidth - visible));
     };
     calc();
     window.addEventListener("resize", calc);

@@ -1,9 +1,9 @@
 export const STATS_HEADLINE = ["What the work", "adds up to."];
 
 export const STATS = [
-  { id: "projects", stat: "3+", description: "Full-Stack Projects" },
-  { id: "production", stat: "1", description: "Live In Production" },
-  { id: "tools", stat: "15+", description: "Technologies & Tools" },
+  { id: "projects", stat: "4+", description: "Full-Stack Projects" },
+  { id: "production", stat: "2", description: "Live In Production" },
+  { id: "tools", stat: "20+", description: "Technologies & Tools" },
   { id: "clean-code", stat: "100%", description: "Clean, Readable Code" },
 ];
 

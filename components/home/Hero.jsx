@@ -58,12 +58,12 @@ export default function Hero() {
               WebkitTextFillColor: "transparent",
             }}
           >
-            MERN Stack Developer
+            Full Stack Developer
           </Reveal>
           <Reveal as="p" className="mt-[clamp(1rem,2.5vw,1.5rem)] max-w-lg text-[clamp(0.95rem,1.6vw,1.125rem)] text-white/80">
             I build scalable full-stack web applications with MongoDB,
-            Express.js, React, and Node.js — from RESTful APIs to real-time
-            features and responsive interfaces.
+            Express.js, React, Next.js, and Node.js — from RESTful APIs to
+            CMS platforms and responsive, animated interfaces.
           </Reveal>
           <Reveal
             className="mt-[clamp(1.5rem,3.5vw,2.5rem)] flex flex-wrap gap-[clamp(0.75rem,1.5vw,1rem)]"

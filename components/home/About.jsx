@@ -3,10 +3,10 @@ import SplitText from "@/components/animations/SplitText";
 import LineLink from "@/components/animations/LineLink";
 import TechMarquee from "@/components/animations/TechMarquee";
 
-const STATEMENT = "Building scalable, user-focused web applications with the MERN stack.";
+const STATEMENT = "Building scalable, user-focused web applications end to end.";
 
 const SUMMARY =
-  "I'm a MERN Stack Developer with hands-on experience in designing and building scalable full-stack web applications using MongoDB, Express.js, React, and Node.js. Strong in developing RESTful APIs, responsive user interfaces, and real-time features using Socket.io. Experienced in implementing secure authentication, cloud-based media handling, and modern UI/UX practices — with a proven ability to contribute to production-level applications through internships and projects. A quick learner with strong problem-solving skills, eager to build impactful and user-focused digital products.";
+  "I'm a Full Stack Developer with hands-on experience in building scalable full-stack web applications using MongoDB, Express.js, React, Next.js, and Node.js. Strong in developing RESTful APIs, responsive user interfaces, and dynamic web applications using modern frontend technologies. Experienced in implementing secure authentication, cloud-based media handling, and modern UI/UX practices. Skilled in leveraging AI-powered development tools such as Claude and Cursor to improve development workflows, solve complex problems, optimize code, and accelerate feature development. A quick learner with strong problem-solving skills, eager to build impactful, scalable, and user-focused digital products.";
 
 export default function About() {
   return (

@@ -16,8 +16,13 @@ import {
   SiSocketdotio,
   SiJsonwebtokens,
   SiGit,
+  SiGreensock,
+  SiFramer,
+  SiThreedotjs,
+  SiClaude,
+  SiPerplexity,
 } from "react-icons/si";
-import { TbApi, TbMail } from "react-icons/tb";
+import { TbApi, TbMail, TbSparkles } from "react-icons/tb";
 import SplitText from "@/components/animations/SplitText";
 import CursorFollower from "@/components/animations/CursorFollower";
 import { useInView } from "@/hooks/useInView";
@@ -27,8 +32,8 @@ const TECH = [
   { label: "JavaScript", Icon: SiJavascript, color: "#F7DF1E" },
   { label: "HTML", Icon: SiHtml5, color: "#E34F26" },
   { label: "CSS", Icon: SiCss, color: "#2965F1" },
-  { label: "React (Vite)", Icon: SiReact, color: "#61DAFB" },
   { label: "Next.js", Icon: SiNextdotjs, color: "#FFFFFF" },
+  { label: "React (Vite)", Icon: SiReact, color: "#61DAFB" },
   { label: "Context API", Icon: SiReact, color: "#61DAFB" },
   { label: "Tailwind CSS", Icon: SiTailwindcss, color: "#38BDF8" },
   { label: "Axios", Icon: SiAxios, color: "#5A29E4" },
@@ -40,7 +45,13 @@ const TECH = [
   { label: "Socket.io", Icon: SiSocketdotio, color: "#FFFFFF" },
   { label: "Nodemailer", Icon: TbMail, color: "#7C5CFF" },
   { label: "JWT", Icon: SiJsonwebtokens, color: "#FB015B" },
+  { label: "GSAP", Icon: SiGreensock, color: "#88CE02" },
+  { label: "Framer Motion", Icon: SiFramer, color: "#FFFFFF" },
+  { label: "React Three Fiber", Icon: SiThreedotjs, color: "#FFFFFF" },
   { label: "Git", Icon: SiGit, color: "#F05032" },
+  { label: "Claude", Icon: SiClaude, color: "#D97757" },
+  { label: "Cursor", Icon: TbSparkles, color: "#4FD1FF" },
+  { label: "Perplexity", Icon: SiPerplexity, color: "#20808D" },
 ];
 
 const AUTO_SPEED = 0.6; // px per frame

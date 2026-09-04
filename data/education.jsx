@@ -1,7 +1,7 @@
 // `logo` renders in the card's circle (falls back to initials until the file exists).
 export const EDUCATION = [
   {
-    date: "Jun 2025 — Oct 2025",
+    date: "Jun 2025 — Dec 2025",
     title: "MERN Stack Developer Training",
     org: "Haris and Co Academy, Calicut, Kerala",
     logo: "/images/career/haris-and-co-academy.png",
