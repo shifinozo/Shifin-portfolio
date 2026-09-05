@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import PixelHeading from "@/components/animations/PixelHeading";
 import SplitText from "@/components/animations/SplitText";
 import LineLink from "@/components/animations/LineLink";
@@ -24,7 +24,11 @@ function buildRows(projects) {
   let i = 0;
   let r = 0;
   while (i < projects.length) {
-    const layout = ROW_LAYOUTS[r % ROW_LAYOUTS.length];
+    let layout = ROW_LAYOUTS[r % ROW_LAYOUTS.length];
+    const remaining = projects.length - i;
+    // A row that would take more cards than are left leaves a lone card in a
+    // narrow slot; give a trailing single card the wide centred treatment.
+    if (remaining < layout.length) layout = ["pj-c10"];
     rows.push(
       projects.slice(i, i + layout.length).map((project, k) => ({ project, cls: layout[k] }))
     );
@@ -44,33 +48,7 @@ function ArrowIcon() {
 
 function ProjectCard({ project, cls, onHover }) {
   const [ref, inView] = useInView({ threshold: 0.2 });
-  const mediaRef = useRef(null);
   const [broken, setBroken] = useState(false);
-
-  // Image parallax: the inner layer is 110% tall and drifts as the card crosses the viewport.
-  useEffect(() => {
-    const inner = mediaRef.current;
-    if (!inner) return;
-    let raf = 0;
-
-    const update = () => {
-      raf = 0;
-      const rect = inner.parentElement.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const p = (rect.top + rect.height / 2 - vh / 2) / (vh / 2 + rect.height / 2);
-      inner.style.transform = `translate3d(0, ${(-p * 5).toFixed(2)}%, 0) scale(1.025)`;
-    };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    update();
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
 
   const tags = project.tags ?? project.stack.slice(0, 4);
   const external = Boolean(project.href);
@@ -86,7 +64,7 @@ function ProjectCard({ project, cls, onHover }) {
       onMouseLeave={() => onHover(false)}
     >
       <div className="pj-media">
-        <div className="pj-media-inner" ref={mediaRef}>
+        <div className="pj-media-inner">
           {!broken ? (
             <img
               src={project.image}

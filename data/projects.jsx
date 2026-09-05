@@ -1,13 +1,12 @@
-// Drop card images at the `image` paths below.
-// `href` = the live site URL; the card opens it in a new tab. Leave "" to disable the link.
+// `image` = the project poster (2:3 portrait). `href` = live site URL; "" disables the link.
 export const PROJECTS = [
   {
     index: "01",
     slug: "haris-co-agency",
-    image: "/images/projects/haris-co-agency.jpg",
+    image: "/images/projects/haris-co-agency.png",
     href: "",
     tag: "Production — Live",
-    title: "Haris Co Agency Website",
+    title: "Haris & Co Agency Website",
     tagline: "CMS-based agency platform on a three-application architecture.",
     desc: "A full-stack, CMS-based digital marketing agency platform using a three-application architecture consisting of a Next.js public website, React-based admin panel, and Node.js/Express REST API with MongoDB. Built dynamic content management features, secure JWT authentication and role-based access, Cloudinary media uploads, and email integrations. Implemented SEO-friendly slug-based routing, server-side data fetching, and ISR caching for improved performance. Developed responsive interfaces and interactive animations using Tailwind CSS, GSAP, Framer Motion, and React Three Fiber.",
     stack: [
@@ -28,7 +27,7 @@ export const PROJECTS = [
   {
     index: "02",
     slug: "chameri-builders",
-    image: "/images/projects/chameri-builders.jpg",
+    image: "/images/projects/chameri-builders.png",
     href: "",
     tag: "Production — Live",
     title: "Chameri Builders Website",
@@ -52,12 +51,12 @@ export const PROJECTS = [
   },
   {
     index: "03",
-    slug: "social-media",
-    image: "/images/projects/social-media.jpg",
+    slug: "netvibe",
+    image: "/images/projects/netvibe.png",
     href: "",
     tag: "Main Project — MERN Stack",
-    title: "Social Media Web Application",
-    tagline: "Real-time social platform with messaging, notifications, and OTP-verified auth.",
+    title: "NetVIBE",
+    tagline: "Social platform with real-time messaging, stories, and OTP-verified auth.",
     desc: "A full-stack social media platform with scalable architecture using MongoDB, Express.js, React, and Node.js. Real-time messaging and notifications via Socket.io drive user engagement, with secure authentication and session management through JWT and Context API. Integrated OTP-based email verification using Nodemailer and media uploads via Cloudinary, wrapped in a responsive Tailwind CSS UI with seamless API communication through Axios.",
     stack: [
       "MongoDB",
@@ -75,12 +74,12 @@ export const PROJECTS = [
   },
   {
     index: "04",
-    slug: "music-streaming",
-    image: "/images/projects/music-streaming.jpg",
-    href: "",
+    slug: "vibe-vault",
+    image: "/images/projects/vibe-vault.png",
+    href: "https://vibe-vault-frontend-one.vercel.app",
     tag: "Mini Project — MERN Stack",
-    title: "Music Playlist Streaming Application",
-    tagline: "Full-stack music streaming with playlists, uploads, and search.",
+    title: "Vibe Vault",
+    tagline: "Music streaming with playlists, uploads, and search.",
     desc: "A full-stack music streaming platform with playlist management and audio playback features. Backend services built with Node.js and Express, with data managed in MongoDB. Implemented song uploads, search functionality, and playlist creation, secured with JWT authentication and integrated with Cloudinary for media storage — presented through a clean, responsive Tailwind CSS UI with optimized API handling.",
     stack: ["Node.js", "Express.js", "MongoDB", "JWT", "Cloudinary", "Tailwind CSS"],
     tags: ["MERN Stack", "Audio Playback", "JWT"],
