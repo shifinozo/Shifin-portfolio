@@ -873,29 +873,38 @@ section {
 }
 .sv-media {
   position: absolute;
-  top: 50%;
-  left: 53%;
-  z-index: 1;
-  width: 53vw;
-  aspect-ratio: 16 / 9;
-  transform: translate(-50%, -50%);
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
   will-change: transform, opacity;
+}
+/* Scrim: the headline and stat labels sit over the footage now, so the clip
+   needs to be held back to keep them legible at any frame. */
+.sv-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      180deg,
+      rgba(30, 36, 30, 0.72) 0%,
+      rgba(30, 36, 30, 0.42) 30%,
+      rgba(30, 36, 30, 0.55) 65%,
+      rgba(30, 36, 30, 0.88) 100%
+    ),
+    radial-gradient(
+      ellipse 62% 52% at 50% 48%,
+      rgba(30, 36, 30, 0.15) 0%,
+      rgba(30, 36, 30, 0.72) 100%
+    );
+  pointer-events: none;
 }
 .sv-media video,
 .sv-media img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  -webkit-mask-image: radial-gradient(
-    ellipse 72% 72% at 50% 50%,
-    #000 55%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    ellipse 72% 72% at 50% 50%,
-    #000 55%,
-    transparent 100%
-  );
+  object-fit: cover;
+  object-position: center;
 }
 .sv-headline {
   position: absolute;
@@ -2091,9 +2100,9 @@ section {
   }
 
   .sv-media {
-    width: calc(100vw - 2 * var(--px));
-    left: 50%;
-    top: 42%;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
   .sv-headline {
     top: 14vh;

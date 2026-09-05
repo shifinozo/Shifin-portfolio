@@ -7,12 +7,12 @@ import { cn } from "@/lib/utils";
 
 // Desktop placements for the floating points (reference: absolute % positions around the object).
 const POSITIONS = [
-  // Kept clear of the centre media frame (~26–79% wide, ~26–73% tall) so the
-  // labels stay legible against the background rather than the footage.
-  { top: "46%", left: "4%" },
-  { top: "13%", right: "8%" },
-  { top: "70%", right: "4%" },
-  { top: "80%", left: "26%" },
+  // The media is full-bleed behind these, so they can spread across the frame;
+  // a scrim over the clip keeps them legible.
+  { top: "40%", left: "16.5%" },
+  { top: "15%", right: "24%" },
+  { top: "68%", right: "8%" },
+  { top: "74%", left: "34%" },
 ];
 
 function clamp(v) {
@@ -66,7 +66,9 @@ export default function Stats() {
             className="sv-media"
             style={{
               opacity: mediaEase,
-              transform: `translate(-50%, -50%) scale(${0.7 + 0.3 * mediaEase}) rotate(${((1 - mediaEase) * -6).toFixed(2)}deg)`,
+              // Full-bleed: a gentle push-in only. The old scale/rotate framed
+              // the clip as an object, which reads wrong as a background.
+              transform: `scale(${(1.06 - 0.06 * mediaEase).toFixed(3)})`,
             }}
           >
             {STATS_MEDIA.video ? (
