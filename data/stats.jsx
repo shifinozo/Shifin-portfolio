@@ -10,7 +10,7 @@ export const STATS = [
 // Centre-stage media for the pinned stats section (reference: 3D object canvas).
 // Provide a video (preferred) or an image; the slot hides itself while the file is missing.
 export const STATS_MEDIA = {
-  video: "/images/stats/showcase.mp4",
-  poster: "/images/stats/showcase.jpg",
+  video: "/videos/stats-showcase.mp4",
+  poster: "",
   image: "",
 };

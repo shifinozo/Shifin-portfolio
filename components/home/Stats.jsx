@@ -1,16 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { STATS, STATS_HEADLINE, STATS_MEDIA } from "@/data/stats";
 import { cn } from "@/lib/utils";
 
 // Desktop placements for the floating points (reference: absolute % positions around the object).
 const POSITIONS = [
-  { top: "40%", left: "16.5%" },
-  { top: "15%", right: "24%" },
-  { top: "68%", right: "8%" },
-  { top: "74%", left: "34%" },
+  // Kept clear of the centre media frame (~26–79% wide, ~26–73% tall) so the
+  // labels stay legible against the background rather than the footage.
+  { top: "46%", left: "4%" },
+  { top: "13%", right: "8%" },
+  { top: "70%", right: "4%" },
+  { top: "80%", left: "26%" },
 ];
 
 function clamp(v) {
@@ -30,6 +32,25 @@ function Square({ large }) {
 export default function Stats() {
   const { ref, progress } = useScrollProgress({ mode: "sticky" });
   const [mediaBroken, setMediaBroken] = useState(false);
+  const videoRef = useRef(null);
+
+  // Only play while the section is on screen — the clip is large and there is
+  // no reason to decode it for the whole page's scroll.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [mediaBroken]);
 
   const mediaP = clamp(progress / 0.35);
   const mediaEase = 1 - Math.pow(1 - mediaP, 3);
@@ -50,12 +71,14 @@ export default function Stats() {
           >
             {STATS_MEDIA.video ? (
               <video
+                ref={videoRef}
                 src={STATS_MEDIA.video}
                 poster={STATS_MEDIA.poster || undefined}
                 muted
                 loop
                 autoPlay
                 playsInline
+                preload="metadata"
                 onError={() => setMediaBroken(true)}
               />
             ) : (

@@ -877,22 +877,25 @@ section {
   left: 53%;
   z-index: 1;
   width: 53vw;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   transform: translate(-50%, -50%);
   will-change: transform, opacity;
-}
-.sv-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgba(242, 242, 242, 0.12);
-  pointer-events: none;
 }
 .sv-media video,
 .sv-media img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  -webkit-mask-image: radial-gradient(
+    ellipse 72% 72% at 50% 50%,
+    #000 55%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 72% 72% at 50% 50%,
+    #000 55%,
+    transparent 100%
+  );
 }
 .sv-headline {
   position: absolute;
@@ -2088,7 +2091,8 @@ section {
   }
 
   .sv-media {
-    width: 115vw;
+    width: calc(100vw - 2 * var(--px));
+    left: 50%;
     top: 42%;
   }
   .sv-headline {
