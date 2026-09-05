@@ -1,5 +1,5 @@
-export const STATS_HEADLINE = ["What the work", "adds up to."];
-
+// The section renders the showcase clip only; these figures are no longer
+// displayed, but stay exposed to assistive tech and search engines.
 export const STATS = [
   { id: "projects", stat: "4+", description: "Full-Stack Projects" },
   { id: "production", stat: "2", description: "Live In Production" },

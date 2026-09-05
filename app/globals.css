@@ -879,189 +879,12 @@ section {
   height: 100%;
   will-change: transform, opacity;
 }
-/* Scrim: the headline and stat labels sit over the footage now, so the clip
-   needs to be held back to keep them legible at any frame. */
-.sv-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-      180deg,
-      rgba(30, 36, 30, 0.72) 0%,
-      rgba(30, 36, 30, 0.42) 30%,
-      rgba(30, 36, 30, 0.55) 65%,
-      rgba(30, 36, 30, 0.88) 100%
-    ),
-    radial-gradient(
-      ellipse 62% 52% at 50% 48%,
-      rgba(30, 36, 30, 0.15) 0%,
-      rgba(30, 36, 30, 0.72) 100%
-    );
-  pointer-events: none;
-}
 .sv-media video,
 .sv-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-}
-.sv-headline {
-  position: absolute;
-  bottom: 13vh;
-  left: var(--px);
-  z-index: 2;
-  width: calc(100% - 2 * var(--px));
-}
-.sv-headline h2 {
-  display: flex;
-  flex-direction: column;
-  font-family: var(--font-display), var(--font-display-fallback);
-  font-weight: 500;
-  font-size: 2.9vw;
-  line-height: 1.15;
-}
-.sv-line {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-}
-.sv-w-wrap {
-  display: inline-block;
-  overflow: hidden;
-  padding: 0 0.12em 0.1em 0;
-  margin: 0 0.13em -0.1em 0;
-}
-.sv-w {
-  display: inline-block;
-  background-image: linear-gradient(180deg, #fff -28.18%, rgba(255, 255, 255, 0) 113.64%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  opacity: 0;
-  transform: translateY(110%) rotate(-5deg);
-  filter: blur(4px);
-  transition: transform 0.9s var(--ease-out), opacity 0.7s ease, filter 0.7s ease;
-}
-.sv-w.on {
-  opacity: 1;
-  transform: none;
-  filter: blur(0);
-}
-
-.sv-point {
-  position: absolute;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: 0.97vw;
-  width: fit-content;
-}
-.sv-point-text {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.2em 0.3em;
-  max-width: 14vw;
-  font-family: var(--font-mono), var(--font-mono-fallback);
-  font-size: 1.66vw;
-  line-height: 1.2;
-  color: var(--text);
-}
-.sv-pw-wrap {
-  display: inline-flex;
-  overflow: hidden;
-  line-height: 1.2;
-}
-.sv-pw {
-  display: block;
-  transform: translateY(100%);
-  opacity: 0;
-  transition: transform 0.8s var(--ease-out), opacity 0.6s ease;
-}
-.sv-point.on .sv-pw {
-  transform: none;
-  opacity: 1;
-}
-.sv-sq {
-  position: relative;
-  flex-shrink: 0;
-  width: 3.75vw;
-  height: 3.75vw;
-}
-.sv-sq-lg {
-  width: 4.51vw;
-  height: 4.51vw;
-}
-.sv-sq-outline {
-  position: absolute;
-  inset: 0;
-  border: 1px solid #f2f2f2;
-  transform: scale(0);
-  opacity: 0;
-  transition: transform 0.8s var(--ease-out), opacity 0.6s ease;
-}
-.sv-sq-inner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 62%;
-  height: 62%;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(5px);
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  filter: blur(8px);
-  transition: transform 0.8s var(--ease-out) 0.1s, opacity 0.6s ease 0.1s, filter 0.8s ease 0.1s;
-}
-.sv-point.on .sv-sq-outline {
-  transform: scale(1);
-  opacity: 1;
-}
-.sv-point.on .sv-sq-inner {
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-  filter: blur(0);
-}
-
-.sv-mobile {
-  display: none;
-  position: absolute;
-  bottom: 8.38vh;
-  left: 0;
-  width: 100%;
-  flex-direction: column;
-  gap: 2.95vh;
-  padding: 0 var(--px);
-  font-weight: 300;
-}
-.sv-mrow p {
-  overflow: hidden;
-  font-family: var(--font-mono), var(--font-mono-fallback);
-  font-size: 4.47vw;
-  line-height: 1.2;
-  color: var(--text);
-  margin-bottom: 2.95vh;
-}
-.sv-mrow-i {
-  display: block;
-  transform: translateY(100%);
-  opacity: 0;
-  transition: transform 0.8s var(--ease-out), opacity 0.6s ease;
-}
-.sv-mline {
-  height: 1px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.25);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.9s var(--ease-out);
-}
-.sv-mrow.on .sv-mrow-i {
-  transform: none;
-  opacity: 1;
-}
-.sv-mrow.on .sv-mline {
-  transform: scaleX(1);
 }
 
 /* ─── Experience & Education (pinned carousel) ────────────────── */
@@ -1838,29 +1661,9 @@ section {
     height: 400vh;
   }
   .sv-media {
-    left: 50%;
-    width: 83vw;
-  }
-  .sv-headline {
-    bottom: 9.07vh;
-  }
-  .sv-headline h2 {
-    font-size: 4.68vw;
-  }
-  .sv-point {
-    gap: 1.75vw;
-  }
-  .sv-point-text {
-    font-size: 2.3vw;
-    max-width: 20vw;
-  }
-  .sv-sq {
-    width: 5.27vw;
-    height: 5.27vw;
-  }
-  .sv-sq-lg {
-    width: 6.34vw;
-    height: 6.34vw;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .tm-sticky {
@@ -2103,25 +1906,6 @@ section {
     inset: 0;
     width: 100%;
     height: 100%;
-  }
-  .sv-headline {
-    top: 14vh;
-    bottom: auto;
-    left: 0;
-    width: 100%;
-    padding: 0 var(--px);
-  }
-  .sv-headline h2 {
-    flex-direction: row;
-    flex-wrap: wrap;
-    font-size: 8.95vw;
-    gap: 0 0.25em;
-  }
-  .sv-point {
-    display: none;
-  }
-  .sv-mobile {
-    display: flex;
   }
 
   .tm-spacer {
