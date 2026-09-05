@@ -861,7 +861,7 @@ section {
 
 .sv {
   position: relative;
-  height: 600vh;
+  height: 900vh;
   width: 100%;
 }
 .sv-sticky {
@@ -1658,7 +1658,7 @@ section {
   }
 
   .sv {
-    height: 400vh;
+    height: 650vh;
   }
   .sv-media {
     inset: 0;

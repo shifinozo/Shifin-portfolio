@@ -15,8 +15,9 @@ function clamp(v) {
  * whole content — so the stat figures are exposed to assistive tech instead.
  */
 export default function Stats() {
-  // Smoothed: raw scroll deltas make the scrubbed video snap between frames.
-  const { ref, progress } = useScrollProgress({ mode: "sticky", smooth: 0.14 });
+  // Heavily smoothed: raw scroll deltas make the scrubbed video snap between
+  // frames. A low factor trades a little latency for a much steadier glide.
+  const { ref, progress } = useScrollProgress({ mode: "sticky", smooth: 0.07 });
   const [mediaBroken, setMediaBroken] = useState(false);
   const videoRef = useRef(null);
   const seekRef = useRef({ target: 0, raf: 0 });
@@ -41,7 +42,9 @@ export default function Stats() {
     if (!state.raf) {
       state.raf = requestAnimationFrame(() => {
         state.raf = 0;
-        if (video.readyState >= 1 && Math.abs(video.currentTime - state.target) > 0.02) {
+        // Only seek when the target is at least a frame away (30fps ≈ 0.033s);
+        // sub-frame seeks are work the viewer cannot see.
+        if (video.readyState >= 2 && Math.abs(video.currentTime - state.target) > 0.033) {
           video.currentTime = state.target;
         }
       });
