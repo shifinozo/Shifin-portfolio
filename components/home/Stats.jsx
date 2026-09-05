@@ -30,29 +30,64 @@ function Square({ large }) {
 
 /** Pinned section (600vh scroll) — headline words, floating points and the centre media resolve with progress. */
 export default function Stats() {
-  const { ref, progress } = useScrollProgress({ mode: "sticky" });
+  // Smoothed: raw scroll deltas make the scrubbed video snap between frames.
+  const { ref, progress } = useScrollProgress({ mode: "sticky", smooth: 0.14 });
   const [mediaBroken, setMediaBroken] = useState(false);
   const videoRef = useRef(null);
+  const seekRef = useRef({ target: 0, raf: 0 });
 
-  // Only play while the section is on screen — the clip is large and there is
-  // no reason to decode it for the whole page's scroll.
+  // Scrub the clip with scroll: the section's progress maps onto the video's
+  // timeline, so the footage advances only as far as the reader has scrolled.
+  // Seeking is coalesced into one rAF to avoid thrashing the decoder.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) video.play().catch(() => {});
-        else video.pause();
-      },
-      { threshold: 0.05 }
-    );
+    // The video must never play on its own — scroll is the only clock.
+    video.pause();
 
-    observer.observe(video);
-    return () => observer.disconnect();
+    const duration = Number.isFinite(video.duration) ? video.duration : 0;
+    if (!duration) return;
+
+    // Hold a hair short of the end; seeking to exactly duration can bounce
+    // back to frame 0 in some browsers.
+    const state = seekRef.current;
+    state.target = Math.min(clamp(progress) * duration, duration - 0.05);
+
+    if (!state.raf) {
+      state.raf = requestAnimationFrame(() => {
+        state.raf = 0;
+        if (video.readyState >= 1 && Math.abs(video.currentTime - state.target) > 0.02) {
+          video.currentTime = state.target;
+        }
+      });
+    }
+  }, [progress, mediaBroken]);
+
+  // Duration is unknown until metadata loads; seek once it arrives so the
+  // first frame matches the reader's position rather than starting at 0.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const onMeta = () => {
+      if (!Number.isFinite(video.duration)) return;
+      video.pause();
+      video.currentTime = Math.min(clamp(progress) * video.duration, video.duration - 0.05);
+    };
+
+    video.addEventListener("loadedmetadata", onMeta);
+    return () => video.removeEventListener("loadedmetadata", onMeta);
+    // Intentionally not re-bound on progress: this only needs the value at load.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mediaBroken]);
 
-  const mediaP = clamp(progress / 0.35);
+  useEffect(() => {
+    const state = seekRef.current;
+    return () => cancelAnimationFrame(state.raf);
+  }, []);
+
+  const mediaP = clamp(progress / 0.2);
   const mediaEase = 1 - Math.pow(1 - mediaP, 3);
   const hasMedia = !mediaBroken && (STATS_MEDIA.video || STATS_MEDIA.image);
 
@@ -77,10 +112,10 @@ export default function Stats() {
                 src={STATS_MEDIA.video}
                 poster={STATS_MEDIA.poster || undefined}
                 muted
-                loop
-                autoPlay
                 playsInline
-                preload="metadata"
+                // Scroll drives the timeline, so no autoplay or loop; the whole
+                // clip is preloaded so seeking lands on a decoded frame.
+                preload="auto"
                 onError={() => setMediaBroken(true)}
               />
             ) : (
