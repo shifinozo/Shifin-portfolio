@@ -1,8 +1,10 @@
-// `image` = the project poster (2:3 portrait). `href` = live site URL; "" disables the link.
+// `image` = the project poster (2:3 portrait). `headline` = the two editorial title lines.
+// `href` = live site URL; "" hides the link.
 export const PROJECTS = [
   {
     index: "01",
     slug: "haris-co-agency",
+    headline: ["Haris & Co", "Agency"],
     image: "/images/projects/haris-co-agency.png",
     href: "",
     tag: "Production — Live",
@@ -27,6 +29,7 @@ export const PROJECTS = [
   {
     index: "02",
     slug: "chameri-builders",
+    headline: ["Chameri", "Builders"],
     image: "/images/projects/chameri-builders.png",
     href: "",
     tag: "Production — Live",
@@ -52,6 +55,7 @@ export const PROJECTS = [
   {
     index: "03",
     slug: "netvibe",
+    headline: ["Net", "Vibe"],
     image: "/images/projects/netvibe.png",
     href: "",
     tag: "Main Project — MERN Stack",
@@ -75,6 +79,7 @@ export const PROJECTS = [
   {
     index: "04",
     slug: "vibe-vault",
+    headline: ["Vibe", "Vault"],
     image: "/images/projects/vibe-vault.png",
     href: "https://vibe-vault-frontend-one.vercel.app",
     tag: "Mini Project — MERN Stack",
